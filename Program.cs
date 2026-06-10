@@ -439,8 +439,36 @@ public class CarrelloUtente : IGestioneCarrello
         // - rifiutare quantità maggiore della disponibilità di magazzino;
         // - se il prodotto è già presente, aumentare la quantità esistente;
         // - controllare che quantità esistente + quantità richiesta non superi il magazzino.
-        throw new NotImplementedException("Completare il metodo AggiungiAlCarrello.");
-    }
+            if (quantita <= 0) return false;
+            if (quantita > prodotto.QuantitaDisponibile) return false;
+
+            ElementoCarrello? esistente = null;
+
+            foreach (ElementoCarrello elemento in elementiCarrello)
+            {
+                if (elemento.ProdottoSelezionato.CodiceProdotto == prodotto.CodiceProdotto)
+                {
+                    esistente = elemento;
+                    break;
+                }
+            }
+
+            if (esistente == null)
+            {
+                elementiCarrello.Add(new ElementoCarrello(prodotto, quantita));
+            }
+            else
+            {
+                int nuovaQuantita = esistente.QuantitaScelta + quantita;
+                if (nuovaQuantita > prodotto.QuantitaDisponibile) return false;
+                esistente.CambiaQuantitaScelta(nuovaQuantita);
+            }
+
+            return true;
+                
+
+                //throw new NotImplementedException("Completare il metodo AggiungiAlCarrello.");
+            }
 
     public bool ModificaQuantitaNelCarrello(string codiceProdotto, int nuovaQuantita)
     {
