@@ -363,7 +363,17 @@ public class CatalogoProdotti : IGestioneCatalogo
     {
         // TODO: cercare il prodotto tramite codice e rimuoverlo dalla lista.
         // Restituire true se il prodotto è stato eliminato, false se non esiste.
-        throw new NotImplementedException("Completare il metodo EliminaProdotto.");
+        Prodotto? prodotto = CercaProdottoPerCodice(codiceProdotto);
+        
+        if (prodotto == null)
+        {
+            return false;
+        }
+        
+        // prodotti è una lista
+        prodotti.Remove(prodotto);
+        return true;
+        //throw new NotImplementedException("Completare il metodo EliminaProdotto.");
     }
 
     public Prodotto? CercaProdottoPerCodice(string codiceProdotto)
@@ -383,14 +393,32 @@ public class CatalogoProdotti : IGestioneCatalogo
     {
         // TODO: trovare il prodotto e chiamare prodotto.CambiaPrezzo(nuovoPrezzo).
         // Restituire false se il codice non esiste.
-        throw new NotImplementedException("Completare il metodo ModificaPrezzoProdotto.");
+        Prodotto? prodotto = CercaProdottoPerCodice(codiceProdotto);
+        if( prodotto == null)
+        {
+            return false;
+        }
+
+            prodotto.CambiaPrezzo(nuovoPrezzo);
+            return true;
+
+        //throw new NotImplementedException("Completare il metodo ModificaPrezzoProdotto.");
     }
 
     public bool ModificaQuantitaProdotto(string codiceProdotto, int variazioneQuantita)
     {
         // TODO: trovare il prodotto e chiamare prodotto.CambiaQuantita(variazioneQuantita).
         // La variazione può essere positiva o negativa, ma il magazzino non deve scendere sotto zero.
-        throw new NotImplementedException("Completare il metodo ModificaQuantitaProdotto.");
+        Prodotto? prodotto = CercaProdottoPerCodice(codiceProdotto);
+        if( prodotto == null)
+        {
+            return false;
+        }
+
+            prodotto.CambiaQuantita(variazioneQuantita);
+            return true;
+
+        //throw new NotImplementedException("Completare il metodo ModificaQuantitaProdotto.");
     }
 }
 
@@ -474,7 +502,21 @@ public class StoricoAcquisti : IGestioneAcquisti
     {
         // TODO: filtrare gli acquisti per nome utente.
         // Consiglio: usare StringComparison.OrdinalIgnoreCase per ignorare maiuscole/minuscole.
-        throw new NotImplementedException("Completare il metodo OttieniAcquistiPerUtente.");
+            List<Acquisto> risultati = new List<Acquisto>();
+
+            foreach (var acquisto in acquisti)
+            {
+                if (string.Equals(
+                    acquisto.NomeUtente,
+                    nomeUtente,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    risultati.Add(acquisto);
+                }
+            }
+
+            return risultati;
+        //throw new NotImplementedException("Completare il metodo OttieniAcquistiPerUtente.");
     }
 }
 
