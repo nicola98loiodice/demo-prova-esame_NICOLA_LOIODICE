@@ -2,8 +2,9 @@
 
 Questo template contiene una Console App C# in un solo file: `Program.cs`.
 Non usa namespace e non divide il codice in moduli, così rispetta il vincolo della traccia.
+Il file `TestNegozioOnline.cs` è separato dal programma principale e contiene test manuali senza framework esterni.
 
-## Struttura
+## Struttura pensata
 
 - `Program`: punto di ingresso dell'applicazione.
 - `ApplicazioneNegozio`: gestisce i menu console per utente e amministratore.
@@ -45,3 +46,9 @@ Le parti principali da implementare sono:
 - filtro acquisti per nome utente.
 
 Non è richiesto il salvataggio su file o database: i dati possono restare in memoria durante l'esecuzione.
+
+## Come eseguire i test
+
+Per eseguire i test, chiamare temporaneamente `TestNegozioOnline.EseguiTuttiITest()` dentro `Main` al posto di `applicazione.Avvia()`.
+
+I test stampano `[PASS]`, `[FAIL]` oppure `[FAIL - TODO]`. I `FAIL - TODO` indicano i metodi ancora lasciati vuoti nel template.
