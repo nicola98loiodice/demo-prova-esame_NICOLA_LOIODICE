@@ -63,10 +63,37 @@ public class ApplicazioneNegozio
 
     private string ScegliRuolo()
     {
-        // TODO: leggere da console il ruolo scelto.
-        // Valori consigliati: "utente", "amministratore", "esci".
-        // Gestire input vuoti e maiuscole/minuscole con Trim() e ToLower().
-        throw new NotImplementedException("Completare il metodo ScegliRuolo.");
+            // TODO: leggere da console il ruolo scelto.
+            // Valori consigliati: "utente", "amministratore", "esci".
+            // Gestire input vuoti e maiuscole/minuscole con Trim() e ToLower().
+        string input = "";
+        bool ruoloValido = false;
+
+        do
+        {
+            Console.WriteLine("Scegli un ruolo tra: 'utente', 'amministratore' oppure digita 'esci' per terminare.");
+            Console.Write("Inserisci la tua scelta: ");
+            //leggi e gestisci errori con ?
+            string letto = Console.ReadLine() ?? "";
+
+            // pulisci input
+            input = letto.Trim().ToLower();
+
+            // check con opziuoni
+            if (input == "utente" || input == "amministratore" || input == "esci")
+            {
+                ruoloValido = true;
+            }
+            else
+            {
+                Console.WriteLine("Errore: Ruolo non valido. Riprova.");
+                Console.WriteLine(); // Riga vuota per formattazione
+            }
+
+        } while (!ruoloValido); //richiedio
+
+        // return pulito
+        return input;
     }
 
     private void GestisciMenuUtente()
@@ -125,14 +152,40 @@ public class ApplicazioneNegozio
     {
         // TODO: leggere un numero intero positivo da console.
         // Continuare a chiedere il valore finché l'utente non inserisce un intero > 0.
-        throw new NotImplementedException("Completare il metodo LeggiInteroPositivo.");
+            int numero;
+            int.TryParse(Console.ReadLine(), out numero);
+
+            do
+            {
+                Console.Write(messaggio);
+                input = Console.ReadLine();
+                if (!int.TryParse(input, out numero) || numero <= 0)
+                {
+                    Console.WriteLine("Input non valido. Riprova.");
+                }
+
+            } while (numero <= 0); 
+
+            return numero;
+        //throw new NotImplementedException("Completare il metodo LeggiInteroPositivo.");
     }
 
     private decimal LeggiPrezzoPositivo(string messaggio)
     {
         // TODO: leggere un prezzo positivo da console.
         // Usare decimal.TryParse e rifiutare valori minori o uguali a zero.
-        throw new NotImplementedException("Completare il metodo LeggiPrezzoPositivo.");
+        decimal positivo;
+        
+        do
+        {
+            Console.Write(messaggio);
+            if(!decimal.TryParse(Console.ReadLine(), out positivo) || positivo <= 0)
+            {
+                Console.WriteLine("Inserisci un prezzo valido (numero maggiore di zero):");
+            }
+        }while(positivo <= 0);
+        return positivo;
+        //throw new NotImplementedException("Completare il metodo LeggiPrezzoPositivo.");
     }
 }
 
@@ -235,7 +288,12 @@ public class ElementoCarrello
         // TODO: validare che la nuova quantità sia maggiore di zero.
         // Se è valida, aggiornare QuantitaScelta.
         // Se non è valida, lanciare ArgumentException con un messaggio comprensibile.
-        throw new NotImplementedException("Completare il metodo CambiaQuantitaScelta.");
+        if(nuovaQuantita <= 0 )
+        {
+            throw new ArgumentException("La quantità deve essere maggiore di zero.");
+        }
+            QuantitaScelta = nuovaQuantita;
+        //throw new NotImplementedException("Completare il metodo CambiaQuantitaScelta.");
     }
 }
 
