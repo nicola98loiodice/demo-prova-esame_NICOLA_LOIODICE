@@ -476,14 +476,44 @@ public class CarrelloUtente : IGestioneCarrello
         // Regole:
         // - nuovaQuantita deve essere > 0;
         // - nuovaQuantita non deve superare la disponibilità del prodotto.
-        throw new NotImplementedException("Completare il metodo ModificaQuantitaNelCarrello.");
+            if (nuovaQuantita <= 0) return false;
+
+            ElementoCarrello? trovato = null;
+
+            foreach (ElementoCarrello elemento in elementiCarrello)
+            {
+                if (elemento.ProdottoSelezionato.CodiceProdotto == codiceProdotto)
+                {
+                    trovato = elemento;
+                    break;
+                }
+            }
+
+            if (trovato == null) return false;
+            if (nuovaQuantita > trovato.ProdottoSelezionato.QuantitaDisponibile) return false;
+
+            trovato.CambiaQuantitaScelta(nuovaQuantita);
+            return true;
+        //throw new NotImplementedException("Completare il metodo ModificaQuantitaNelCarrello.");
     }
 
     public bool RimuoviDalCarrello(string codiceProdotto)
     {
         // TODO: rimuovere dal carrello l'elemento con il codice indicato.
         // Restituire true se rimosso, false se non trovato.
-        throw new NotImplementedException("Completare il metodo RimuoviDalCarrello.");
+        ElementoCarrello? trovato = null;
+            foreach (ElementoCarrello elemento in elementiCarrello)
+            {
+                if (elemento.ProdottoSelezionato.CodiceProdotto == codiceProdotto)
+                {
+                    trovato = elemento;
+                    break;
+                }
+            }
+        if (trovato == null) return false;
+        elementiCarrello.Remove(trovato);
+        return true;
+        //throw new NotImplementedException("Completare il metodo RimuoviDalCarrello.");
     }
 
     public void SvuotaCarrello()
@@ -565,7 +595,12 @@ public class ServizioNegozio
     {
         // TODO: cercare il prodotto nel catalogo e delegare a carrelloUtente.AggiungiAlCarrello.
         // Restituire false se il prodotto non esiste o se la quantità non è valida.
-        throw new NotImplementedException("Completare il metodo AggiungiProdottoAlCarrello.");
+        Prodotto? prodotto = catalogoProdotti.CercaProdottoPerCodice(codiceProdotto);
+        
+        if (prodotto == null) return false;
+        
+        return carrelloUtente.AggiungiAlCarrello(prodotto, quantita);
+        //throw new NotImplementedException("Completare il metodo AggiungiProdottoAlCarrello.");
     }
 
     public Acquisto ConfermaAcquisto(string nomeUtente)
