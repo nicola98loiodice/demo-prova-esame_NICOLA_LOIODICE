@@ -130,7 +130,17 @@ public class ApplicazioneNegozio
         // TODO: stampare a video tutti i prodotti.
         // Usare catalogoProdotti.OttieniTuttiIProdotti().
         // Per ogni prodotto mostrare codice, nome, prezzo e quantità disponibile.
-        throw new NotImplementedException("Completare il metodo MostraCatalogo.");
+        List<Prodotto> prodotti = catalogoProdotti.OttieniTuttiIProdotti(); 
+            if(prodotti.Count() == 0)
+            {
+                Console.WriteLine("Non c'è nessun prodotto nel nostro catalogo");
+            }
+        foreach ( Prodotto prodotto in prodotti)
+        {
+
+            Console.WriteLine($"Codice: {prodotto.CodiceProdotto}\n"+ $"Nome: {prodotto.Nome}\n"+ $"Prezzo: {prodotto.Prezzo:c}\n"+$"Quantità: {prodotto.QuantitaDisponibile}\n");
+        }
+        //throw new NotImplementedException("Completare il metodo MostraCatalogo.");
     }
 
     private void MostraCarrello()
@@ -138,14 +148,38 @@ public class ApplicazioneNegozio
         // TODO: stampare contenuto del carrello e totale.
         // Usare carrelloUtente.OttieniElementi() e carrelloUtente.CalcolaTotale().
         // Se il carrello è vuoto, mostrare un messaggio chiaro.
-        throw new NotImplementedException("Completare il metodo MostraCarrello.");
+        List<ElementoCarrello> elementi = carrelloUtente.OttieniElementi();
+        if(elementi.Count() == 0)
+        {
+            Console.WriteLine("Carello vuoto!");
+        }
+                foreach ( ElementoCarrello  elemento in elementi)
+        {
+
+            Console.WriteLine($"Codice: {elemento.ProdottoSelezionato.CodiceProdotto}\n"+ $"Nome: {elemento.ProdottoSelezionato.Nome}\n"+ $"Prezzo: {elemento.PrezzoUnitario:c}\n"+$"Quantità: {elemento.QuantitaScelta}\n");
+        }
+            Console.WriteLine($"Totale: {carrelloUtente.CalcolaTotale():C}");
+
+        //throw new NotImplementedException("Completare il metodo MostraCarrello.");
     }
 
     private void MostraStoricoUtente()
     {
         // TODO: chiedere il nome utente e stampare solo gli acquisti collegati a quel nome.
         // Usare storicoAcquisti.OttieniAcquistiPerUtente(nomeUtente).
-        throw new NotImplementedException("Completare il metodo MostraStoricoUtente.");
+        Console.Write("Inserisci il nome utente: ");
+        string nomeUtente = Console.ReadLine() ?? "";
+            List<Acquisto> acquisti = storicoAcquisti.OttieniAcquistiPerUtente(nomeUtente); 
+            if(acquisti.Count() == 0)
+            {
+                Console.WriteLine("Non ci sono presenti record nello storico degli acquisti di questo utente");
+            }
+        foreach ( Acquisto acquisto in acquisti)
+        {
+
+            servizioNegozio.StampaAcquisto(acquisto);
+        }
+        //throw new NotImplementedException("Completare il metodo MostraStoricoUtente.");
     }
 
     private int LeggiInteroPositivo(string messaggio)
@@ -669,14 +703,31 @@ public class ServizioNegozio
     {
         // TODO: stampare i dettagli di un acquisto.
         // Mostrare nome utente, data, prodotti, quantità, prezzi e totale ordine.
-        throw new NotImplementedException("Completare il metodo StampaAcquisto.");
+        Console.WriteLine($"Utente: {acquisto.NomeUtente}");
+        Console.WriteLine($"Data: {acquisto.DataAcquisto}");
+        Console.WriteLine("Prodotti acquistati:");
+
+        foreach (ElementoAcquistato elemento in acquisto.ProdottiAcquistati)
+        {
+            Console.WriteLine($"  Codice: {elemento.CodiceProdotto} | Nome: {elemento.NomeProdotto} | Quantità: {elemento.QuantitaAcquistata} | Prezzo: {elemento.PrezzoUnitario:C} | Totale: {elemento.TotaleParziale:C}");
+        }
+
+        Console.WriteLine($"Totale ordine: {acquisto.TotaleOrdine:C}");
+        Console.WriteLine("----------------------------");
+        //throw new NotImplementedException("Completare il metodo StampaAcquisto.");
     }
 
     public void StampaReportProdotti()
     {
         // TODO: usare CreaReportProdotti() e stampare una riga per ogni prodotto.
         // La riga deve contenere quantità iniziale, quantità venduta e quantità disponibile.
-        throw new NotImplementedException("Completare il metodo StampaReportProdotti.");
+        List<ReportProdotto> report = CreaReportProdotti();
+
+        foreach (ReportProdotto riga in report)
+        {
+            Console.WriteLine($"Codice: {riga.CodiceProdotto} | Nome: {riga.NomeProdotto} | Iniziale: {riga.QuantitaIniziale} | Venduta: {riga.QuantitaVenduta} | Disponibile: {riga.QuantitaDisponibile}");
+        }
+        //throw new NotImplementedException("Completare il metodo StampaReportProdotti.");
     }
 }
 
